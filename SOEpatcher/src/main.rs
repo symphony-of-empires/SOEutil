@@ -31,7 +31,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let _ = WriteLogger::init(
         LevelFilter::Info,
         Config::default(),
-        File::create("download_manager.log").unwrap(),
+        File::create("patch.log").unwrap(),
     );
 
     let args = Args::parse();

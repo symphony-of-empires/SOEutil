@@ -1,5 +1,5 @@
 [package]
-name = "SOEdownload_manager"
+name = "soe_patcher"
 version = "0.1.0"
 edition = "2021"
 
@@ -14,3 +14,5 @@ tokio = { version = "1.24.2", features = ["full"] }
 log = "0.4.17"
 zip = "0.6.3"
 simplelog = "0.12.0"
+sha2 = "0.10.6"
+base64ct = { version = "1.6.0", features = ["alloc"] }
