@@ -1,4 +1,4 @@
-name: Build download manager
+name: Build patcher
 
 on:
   - push
@@ -16,7 +16,7 @@ jobs:
         with: { toolchain: stable }
 
       - name: Build launcher
-        working-directory: ./SOEdownload_manager
+        working-directory: ./SOEpatcher
         run: |
           cargo build --release
         
@@ -25,4 +25,4 @@ jobs:
         with:
           name: downloader-dev-release-linux
           path: |
-            SOEdownload_manager/target/release/SOEdownload_manager 
+            SOEdownload_manager/target/release/SOEpatcher
