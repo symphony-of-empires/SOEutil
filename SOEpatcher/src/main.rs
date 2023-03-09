@@ -1,4 +1,6 @@
 mod updater;
+mod patcher;
+
 use clap::Parser;
 use log::{info, warn};
 use simplelog::*;
