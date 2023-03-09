@@ -1,4 +1,4 @@
-use log::error;
+use log::{error, info};
 use std::fs;
 use std::path::PathBuf;
 use zip::ZipArchive;
@@ -6,24 +6,24 @@ use zip::ZipArchive;
 pub fn install_archive(archive_path: PathBuf) {
     let file = match fs::File::open(archive_path) {
         Ok(file) => file,
-        Err(_) => {
+        Err(error) => {
             error!("Unable to open the archive, this shouldn't have happened");
+            info!("Message: {:?}", error);
             return;
         }
     };
 
     let mut archive = match ZipArchive::new(file) {
         Ok(archive) => archive,
-        Err(_) => {
+        Err(error) => {
             error!("Unable to open the file as an archive");
+            info!("Message: {:?}", error);
             return;
         }
     };
 
-    match archive.extract(".") {
-        Ok(_) => {}
-        Err(_) => {
-            error!("Unable to extract the archive");
-        }
+    if let Err(error) = archive.extract(".") {
+        error!("Unable to extract the archive");
+        info!("Message: {:?}", error);
     }
 }

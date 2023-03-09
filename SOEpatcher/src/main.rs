@@ -27,7 +27,7 @@ struct Args {
 }
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() -> Result<(), ()> {
     let _ = WriteLogger::init(
         LevelFilter::Info,
         Config::default(),

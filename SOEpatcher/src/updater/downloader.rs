@@ -4,12 +4,11 @@ use std::path::{Path, PathBuf};
 use super::github::release::Releases;
 use log::{error, info};
 
-pub async fn download_latest_release(mut releases: Releases, file_name_contains:&str, allow_prereleases:bool) -> Result<PathBuf, ()> {
-    
+pub async fn download_latest_release(mut releases: Releases, file_name_contains: &str, allow_prereleases: bool) -> Result<PathBuf, ()> {
+
     if !allow_prereleases {
         releases.retain(|release| !release.is_prerelease());
     }
-    
 
     if releases.is_empty() {
         error!("There is no stable release in the specified repository");
@@ -22,18 +21,23 @@ pub async fn download_latest_release(mut releases: Releases, file_name_contains:
                 let result = reqwest::get(asset.get_download_url()).await;
 
                 if let Ok(response) = result {
-                    // TODO: better error handling 
-                    let content = response.bytes().await.unwrap();
+                    // TODO: better error handling
+                    let content = response
+                        .bytes()
+                        .await
+                        .unwrap();
 
                     let updater_cache = Path::new(".cache/updater");
                     let file_path = updater_cache.join(asset.get_name());
-                    
-                    if let Err(_) = fs::create_dir_all(updater_cache){
-                        error!("Error creating the file directroy {:?}", updater_cache);
+
+                    if let Err(error) = fs::create_dir_all(updater_cache) {
+                        error!("Error while creating the directory at {:?}", updater_cache);
+                        info!("Message: {:?}", error);
                     }
-                    
-                    if let Err(_) = fs::write(&file_path, content){
-                        error!("Error writing to a file {:?}",file_path);
+
+                    if let Err(error) = fs::write(&file_path, content) {
+                        error!("Error while writing to the file at {:?}", file_path);
+                        info!("Message: {:?}", error);
                     }
 
                     return Ok(file_path);
